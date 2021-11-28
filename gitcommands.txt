@@ -1,0 +1,9 @@
+git add .
+
+git branch
+
+git status
+
+git commit -m "<commit name>"
+
+git push origin <branch name>
