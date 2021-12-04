@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <script src="https://kit.fontawesome.com/043883177b.js" crossorigin="anonymous"></script>
+
+    <title>Farm Easy</title>
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/home">Farm Easy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home <span class="sr-only"></span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/recommend">Crop Recommendation</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/yeild">Yeild Prediction</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+
+        {%if error1%}
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Error</strong> Please make sure you enter all values greater than 0 in the given form.
+            </div>
+
+        {%endif%} 
+        
+        {%if error2%}
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Error</strong> Please make sure you do not leave the form incomplete.
+            </div>
+
+        {%endif%}
+
+        <h2 class="text-center mt-3">Yeild Prediction System</h2>
+
+          
+        <div class="alert alert-success my-4 text-center" role="alert">
+            <h3 class="alert-heading">Data Descrption</h3>
+            <div class="markdown-converter__text--rendered my-3" style="user-select: auto;">
+                <h4 style="user-select: auto;">Context</h4>
+                <p style="user-select: auto;">Precision agriculture is in trend nowadays. It helps the farmers to get informed decision about the farming strategy. Here, I present you a dataset which would allow the users to build a predictive model to recommend the most suitable
+                    crops to grow in a particular farm based on various parameters.</p>
+
+                <ul style="user-select: auto;">
+                    <li style="user-select: auto;"><code style="user-select: auto;">Season</code> - Select the Season of harvest like Kharif,Rabi,Autumn etc..</li>
+                    <li style="user-select: auto;"><code style="user-select: auto;">Crop/Fruit/Vegetable Sown</code> - Select the crop/fruit/vegetable sown during the harvest</li>
+                    <li style="user-select: auto;"><code style="user-select: auto;">Area</code> Area under cultivation (in hectares)</li>
+
+                </ul>
+            </div>
+
+            <hr>
+
+        </div>
+
+
+        <form action="/yeild/" method="POST">
+            {%csrf_token %} 
+
+            <!--Harvest Season -->
+            
+            <div class="form-group my-3">
+                <label for="concavemean">Select the Harvest Season</label>
+                <select class="form-select" aria-label="Default select example" name="season" id="season">
+                        <option selected>Select the Harvest Season</option>
+                        <option value="1">Kharif</option>
+                        <option value="2">Whole Year</option>
+                        <option value="3">Autumn</option>
+                        <option value="4">Rabi</option>
+                        <option value="5">Summer</option>
+                        <option value="6">Winter</option>
+                    </select>
+            </div>
+
+            <!--Crop Harvested-->
+
+            <div class="form-group my-3">
+                <label for="concavemean">Select the Crop Harvested</label>
+                <select class="form-select" aria-label="Default select example" name="crop" id="crop">
+                        <option selected>Select the Crop Harvested</option>
+                        <option value=1>Arecanut</option>
+                        <option value=2>Other Kharif pulses</option>
+                        <option value=3>Rice</option>
+                        <option value=4>Banana</option>
+                        <option value=5>Cashewnut</option>
+                        <option value=6>Coconut </option>
+                        <option value=7>Dry ginger</option>
+                        <option value=8>Sugarcane</option>
+                        <option value=9>Sweet potato</option>
+                        <option value=10>Tapioca</option>
+                        <option value=11>Black pepper</option>
+                        <option value=12>Dry chillies</option>
+                        <option value=13>other oilseeds</option>
+                        <option value=14>Turmeric</option>
+                        <option value=15>Maize</option>
+                        <option value=16>Moong(Green Gram)</option>
+                        <option value=17>Urad</option>
+                        <option value=18>Arhar/Tur</option>
+                        <option value=19>Groundnut</option>
+                        <option value=20>Sunflower</option>
+                        <option value=21>Bajra</option>
+                        <option value=22>Castor seed</option>
+                        <option value=23>Cotton(lint)</option>
+                        <option value=24>Horse-gram</option>
+                        <option value=25>Jowar</option>
+                        <option value=26>Korra</option>
+                        <option value=27>Ragi</option>
+                        <option value=28>Tobacco</option>
+                        <option value=29>Gram</option>
+                        <option value=30>Wheat</option>
+                        <option value=31>Masoor</option>
+                        <option value=32>Sesamum</option>
+                        <option value=33>Linseed</option>
+                        <option value=34>Safflower</option>
+                        <option value=35>Onion</option>
+                        <option value=36>other misc. pulses</option>
+                        <option value=37>Samai</option>
+                        <option value=38>Small millets</option>
+                        <option value=39>Coriander</option>
+                        <option value=40>Potato</option>
+                        <option value=41>Other Rabi pulses</option>
+                        <option value=42>Soyabean</option>
+                        <option value=43>Beans & Mutter(Vegetable)</option>
+                        <option value=44>Bhindi</option>
+                        <option value=45>Brinjal</option>
+                        <option value=46>Citrus Fruit</option>
+                        <option value=47>Cucumber</option>
+                        <option value=48>Grapes</option>
+                        <option value=49>Mango</option>
+                        <option value=50>Orange</option>
+                        <option value=51>other fibres</option>
+                        <option value=52>Other Fresh Fruits</option>
+                        <option value=53>Other Vegetables</option>
+                        <option value=54>Papaya</option>
+                        <option value=55>Pome Fruit</option>
+                        <option value=56>Tomato</option>
+                        <option value=57>Rapeseed &Mustard</option>
+                        <option value=58>Mesta</option>
+                        <option value=59>Cowpea(Lobia)</option>
+                        <option value=60>Lemon</option>
+                        <option value=61>Pome Granet</option>
+                        <option value=62>Sapota</option>
+                        <option value=63>Cabbage</option>
+                        <option value=64>Peas (vegetable)</option>
+                        <option value=65>Niger seed</option>
+                        <option value=66>Bottle Gourd</option>
+                        <option value=67>Sannhamp</option>
+                        <option value=68>Varagu</option>
+                        <option value=69>Garlic</option>
+                        <option value=70>Ginger</option>
+                        <option value=71>Oilseeds total</option>
+                        <option value=72>Pulses total</option>
+                        <option value=73>Jute</option>
+                        <option value=74>Peas & beans (Pulses)</option>
+                        <option value=75>Blackgram</option>
+                        <option value=76>Paddy</option>
+                        <option value=77>Pineapple</option>
+                        <option value=78>Barley</option>
+                        <option value=79>Khesari</option>
+                        <option value=80>Guar seed</option>
+                        <option value=81>Moth</option>
+                        <option value=82>Other Cereals & Millets</option>
+                        <option value=83>Cond-spcs other</option>
+                        <option value=84>Turnip</option>
+                        <option value=85>Carrot</option>
+                        <option value=86>Redish</option>
+                        <option value=87>Arcanut (Processed)</option>
+                        <option value=88>Atcanut (Raw)</option>
+                        <option value=89>Cashewnut Processed</option>
+                        <option value=90>Cashewnut Raw</option>
+                        <option value=91>Cardamom</option>
+                        <option value=92>Rubber</option>
+                        <option value=93>Bitter Gourd</option>
+                        <option value=94>Drum Stick</option>
+                        <option value=95>Jack Fruit</option>
+                        <option value=96>Snak Guard</option>
+                        <option value=97>Pump Kin</option>
+                        <option value=98>Tea</option>
+                        <option value=99>Coffee</option>
+                        <option value=100>Cauliflower</option>
+                        <option value=101>Other Citrus Fruit</option>
+                        <option value=102>Water Melon</option>
+                        <option value=103>Total foodgrain</option>
+                        <option value=104>Kapas</option>
+                        <option value=105>Colocosia</option>
+                        <option value=106>Lentil</option>
+                        <option value=107>Bean</option>
+                        <option value=108>Jobster</option>
+                        <option value=109>Perilla</option>
+                        <option value=110>Rajmash Kholar</option>
+                        <option value=111>Ricebean (nagadal)</option>
+                        <option value=112>Ash Gourd</option>
+                        <option value=113>Beet Root</option>
+                        <option value=114>Lab-Lab</option>
+                        <option value=115>Ribed Guard</option>
+                        <option value=116>Yam</option>
+                        <option value=117>Apple</option>
+                        <option value=118>Peach</option>
+                        <option value=119>Pear</option>
+                        <option value=120>Plums</option>
+                        <option value=121>Litchi</option>
+                        <option value=122>Ber</option>
+                        <option value=123>Other Dry Fruit</option>
+                        <option value=124>Jute & mesta</option>
+                    </select>
+            </div>
+
+            <!--Area under cultivation-->
+
+            <div class="form-group my-3">
+                <label for="concavepoints">Mention the Area under Cultivation</label>
+                <input type="text" class="form-control" id="cultivation" name="cultivation" placeholder="Mention the Area under Cultivation in (hectares)">
+
+            </div>
+
+
+            
+
+
+
+            <div class="col-md-12 text-center">
+                <button id="singlebutton" name="singlebutton" class="btn btn-primary">Predict</button>
+            </div>
+
+        </form>
+
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js " integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI " crossorigin="anonymous "></script>
+</body>
+
+</html>
