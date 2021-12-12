@@ -325,7 +325,7 @@ def dashboard(request, methods=['GET', 'POST']):
 def blog(request, methods=['GET', 'POST']):
 
     # print(heading_list)
-    mylist = zip(final_content, image_urls)
+    mylist = zip(heading_list, final_content, image_urls)
     context = {
         'mylist': mylist,
     }

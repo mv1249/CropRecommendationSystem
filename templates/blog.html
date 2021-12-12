@@ -52,14 +52,14 @@
 
         <h3 style="text-align:center">Catch up with the latest news</h3>
 
-        {%for final,img in mylist%}
+        {%for heading,final,img in mylist%}
             
              <div></div>
              <div class="col-md-12 my-4" style="user-select: auto; height:100px;">
                 <div class="row overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative" style="user-select: auto;">
                     <div class="col p-4 d-flex flex-column position-static" style="user-select: auto;">
 
-                        <p class="card-text mb-auto" style="user-select: auto;">{{final|safe|slice:200}}...</p>
+                        <p class="card-text mb-auto" style="user-select: auto;">{{heading|safe|}}</p>
                         <a href="/blogcontent/?counter={{forloop.counter}}" class="stretched-link" target="_blank" style="user-select: auto;">Continue reading</a>
                     </div>
                     <div class="col-auto d-none d-lg-block" style="user-select: auto;">
