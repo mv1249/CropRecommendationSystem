@@ -16,7 +16,7 @@ MarkupSafe==1.1.1
 SQLAlchemy==1.4.7
 Werkzeug==1.0.1
 requests==2.26.0
-spacy>=2.0.16,<2.1.0
+spacy>=2.0.16
 https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.0.0/en_vectors_web_lg-2.0.0.tar.gz
 spacy-legacy==3.0.8
 spacytextblob==3.0.1
