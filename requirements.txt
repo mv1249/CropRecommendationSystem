@@ -9,7 +9,6 @@ whitenoise==5.2.0
 pandas==1.2.3
 numpy>=1.9.2
 pandocfilters==1.4.3
-requests==2.25.1
 beautifulsoup4==4.8.2
 itsdangerous==1.1.0
 Jinja2==2.11.3
