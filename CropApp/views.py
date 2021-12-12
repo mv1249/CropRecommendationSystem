@@ -12,7 +12,8 @@ import numpy as np
 
 import spacy
 from spacy import displacy
-nlp = spacy.load('en_core_web_lg')
+import en_core_web_lg
+nlp = en_core_web_lg.load()
 
 # Loading the Crop Recommendation Model
 
