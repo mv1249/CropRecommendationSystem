@@ -3,7 +3,7 @@ from CropApp.models import CreateUser
 import pickle
 from utility.namedutils import fertilizer_dic
 from utility import croprecommend
-from utility.scraper import heading_list, final_content, image_urls
+from utility.scraper import heading_list, final_content, image_urls, schemes_content, final_image
 # from utility.sentiment import getlabel, getscore
 import pandas as pd
 import numpy as np
@@ -360,6 +360,53 @@ def blogcontent(request, methods=['GET', 'POST']):
     results = str(request.get_full_path).split(
         '?')[1].split('=')[1].split("'")[0]
     finalcontent = final_content[int(results)]
+
+    doc = nlp(finalcontent)
+    label_map = showents(doc)
+    html = displacy.render(doc, style="ent")
+    html = html.replace("\n\n", "\n")
+    result = HTML_WRAPPER.format(html)
+    print(label_map)
+    context = {'result': result,
+               'keys': list(label_map.keys()),
+               'values': list(label_map.values())
+               }
+
+    # label = getlabel(doc)
+    # score = getscore(doc)
+    # print(label, score)
+
+    return render(request, 'blogcontent.html', context=context)
+
+
+# schemes page
+
+def schemes(request, methods=['GET', 'POST']):
+
+    # print(heading_list)
+    heading_list_new = []
+    for key, val in schemes_content.items():
+        heading_list_new.append(val[0])
+
+    final_content_new = list(schemes_content.values())
+    print(image_urls)
+    mylist = zip(heading_list_new, final_content_new, image_urls)
+    context = {
+        'mylist': mylist,
+    }
+    return render(request, 'blog.html', context=context)
+
+
+# schemes content
+
+def schemescontent(request, methods=['GET', 'POST']):
+
+    HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem">{}</div>"""
+
+    results = str(request.get_full_path).split(
+        '?')[1].split('=')[1].split("'")[0]
+
+    finalcontent = schemes_content[int(results)]
 
     doc = nlp(finalcontent)
     label_map = showents(doc)
