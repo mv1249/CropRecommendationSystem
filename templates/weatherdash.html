@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+
+    <!-- Fontawesome -->
+
+    <script
+      src="https://kit.fontawesome.com/043883177b.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--Chart js-->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <title>Farm Easy</title>
+  </head>
+
+  <body>
+    <!--Navbar-->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/home">Farm Easy</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/home"
+              >Home <span class="sr-only"></span
+            ></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/recommend">Crop Recommendation</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/yeild">Yeild Prediction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">News</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/weather">Weather</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container my-4">
+      <h1 style="text-align: center">Weather Report for city : {{city}}</h1>
+      <div class="row my-4">
+        <!--Card1-->
+
+        <div class="col">
+          <div class="card" style="width: 18rem">
+            <img src="{{img_1|safe}}" class="card-img-top" alt="..." />
+            <div class="card-body my-2">
+              <h5 class="card-title">
+                Date : <span>{{current_date|safe}}</span>
+              </h5>
+              <h5 class="card-title">
+                Temperature : <span>{{current_temp|safe}}&deg;C</span>
+              </h5>
+              <h5 class="card-title">
+                General : <span>{{current_desc|safe}}</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+
+        <!--Card2-->
+
+        <div class="col">
+          <div class="card" style="width: 18rem">
+            <img src="{{img_2|safe}}" class="card-img-top" alt="..." />
+            <div class="card-body my-2">
+              <h5 class="card-title">Date : <span>{{tom|safe}}</span></h5>
+              <h5 class="card-title">
+                Temperature : <span>{{avg_2|safe}}&deg;C</span>
+              </h5>
+              <h5 class="card-title">
+                General : <span>{{cur_desc1|safe}}</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+
+        <!--Card3-->
+
+        <div class="col">
+          <div class="card" style="width: 18rem">
+            <img src="{{img_3|safe}}" class="card-img-top" alt="..." />
+            <div class="card-body my-2">
+              <h5 class="card-title">Date : <span>{{nexttom|safe}}</span></h5>
+              <h5 class="card-title">
+                Temperature : <span>{{avg_3|safe}}&deg;C</span>
+              </h5>
+              <h5 class="card-title">
+                General : <span>{{cur_desc2|safe}}</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+
+        <!--Card4-->
+
+        <div class="col">
+          <div class="card" style="width: 18rem">
+            <img src="{{img_4|safe}}" class="card-img-top" alt="..." />
+            <div class="card-body my-2">
+              <h5 class="card-title">Date : <span>{{nexttotom|safe}}</span></h5>
+              <h5 class="card-title">
+                Temperature : <span>{{avg_4|safe}}&deg;C</span>
+              </h5>
+
+              <h5 class="card-title">
+                General : <span>{{cur_desc3|safe}}</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Charts-->
+    <div class="container text-center">
+      <div class="row">
+        <!-- Avg Temp values comparison -->
+
+        <div class="col-md-4 col-sm-6">
+          <div class="card-body">
+            <label
+              for="banana"
+              style="text-align: center; font-size: 1.5rem; font-weight: bold"
+              >Comparision of Temperatures</label
+            >
+          </div>
+          <div class="chart-container my-3" style="position: relative">
+            <canvas height="400" width="400" id="chart"></canvas>
+          </div>
+        </div>
+
+        <!--Max Temp values comparison-->
+
+        <div class="col-md-4 col-sm-6">
+          <div class="card-body">
+            <label
+              for="banana"
+              style="text-align: center; font-size: 1.5rem; font-weight: bold"
+              >Comparision of Maximum Temperatures</label
+            >
+          </div>
+          <div class="chart-container my-3" style="position: relative">
+            <canvas height="400" width="400" id="chart1"></canvas>
+          </div>
+        </div>
+
+        <!--Min Temp values comparison-->
+
+        <div class="col-md-4 col-sm-6">
+          <div class="card-body">
+            <label
+              for="banana"
+              style="text-align: center; font-size: 1.5rem; font-weight: bold"
+              >Comparision of Minimum Temperatures</label
+            >
+          </div>
+          <div class="chart-container my-3" style="position: relative">
+            <canvas height="400" width="400" id="chart2"></canvas>
+          </div>
+        </div>
+
+        <!--Temp comparision1-->
+
+        <div class="col-md-4 col-sm-6">
+          <div class="card-body">
+            <label
+              for="banana"
+              style="text-align: center; font-size: 1.5rem; font-weight: bold"
+              >Weather-Time Analysis for {{date1|safe}}</label
+            >
+          </div>
+          <div class="chart-container my-3" style="position: relative">
+            <canvas height="400" width="400" id="chart3"></canvas>
+          </div>
+        </div>
+
+        <!--Temp comparision2-->
+
+        <div class="col-md-4 col-sm-6">
+          <div class="card-body">
+            <label
+              for="banana"
+              style="text-align: center; font-size: 1.5rem; font-weight: bold"
+              >Weather-Time Analysis for {{date2|safe}}</label
+            >
+          </div>
+          <div class="chart-container my-3" style="position: relative">
+            <canvas height="400" width="400" id="chart4"></canvas>
+          </div>
+        </div>
+
+        <!--Temp comparision3-->
+
+        <div class="col-md-4 col-sm-6">
+          <div class="card-body">
+            <label
+              for="banana"
+              style="text-align: center; font-size: 1.5rem; font-weight: bold"
+              >Weather-Time Analysis for {{date3|safe}}</label
+            >
+          </div>
+          <div class="chart-container my-3" style="position: relative">
+            <canvas height="400" width="400" id="chart5"></canvas>
+          </div>
+        </div>
+
+        <!--Go back-->
+        <div class="col-sm">
+          <div class="col-md-12 text-center my-4 mx-2">
+            <a href="/weather/"
+              ><button class="btn btn-primary btn-md" type="submit">
+                Go Back
+              </button></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%block javascript%}
+
+    <script>
+
+      var avgtemps = {{avgtemps|safe}};
+      var datelist = {{datelist|safe}};
+      var maxtemp = {{max_temp|safe}};
+      var mintemp = {{min_temp|safe}};
+
+      var serie_1 = {{serie_1|safe}};
+      var serie_2 = {{serie_2|safe}};
+      var serie_3 = {{serie_3|safe}};
+
+      var temp_1 = {{temp_1|safe}};
+      var temp_2 = {{temp_2|safe}};
+      var temp_3 = {{temp_3|safe}};
+
+      console.log(serie_1,serie_2,serie_3);
+      console.log(temp_1,temp_2,temp_3);
+
+      // // // Chart1
+
+      var ctx = document.getElementById('chart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: datelist,
+              datasets: [{
+                  label: "Temperature in  °C",
+                  data: avgtemps,
+                  backgroundColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(75, 192, 192)',
+                      'rgb(255, 205, 86)',
+                      'rgb(201, 203, 207)',
+                      'rgb(54, 162, 235)',
+                      'rgba(153, 102, 255)',
+                      'rgba(255, 159, 64)',
+                      'rgba(250, 157, 60)'
+                  ],
+                  hoverOffset: 4
+
+              }]
+          }
+      })
+
+      // // // chart2
+
+      var ctx = document.getElementById('chart1').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: datelist,
+              datasets: [{
+                  label: "Temperature in  °C",
+                  data: maxtemp,
+                  backgroundColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(75, 192, 192)',
+                      'rgb(255, 205, 86)',
+                      'rgb(201, 203, 207)',
+                      'rgb(54, 162, 235)',
+                      'rgba(153, 102, 255)',
+                      'rgba(255, 159, 64)',
+                      'rgba(250, 157, 60)'
+                  ],
+                  hoverOffset: 4
+
+              }]
+          }
+      })
+
+
+      // // // chart3
+
+      var ctx = document.getElementById('chart2').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: datelist,
+              datasets: [{
+                  label: "Temperature in  °C",
+                  data: mintemp,
+                  backgroundColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(75, 192, 192)',
+                      'rgb(255, 205, 86)',
+                      'rgb(201, 203, 207)',
+                      'rgb(54, 162, 235)',
+                      'rgba(153, 102, 255)',
+                      'rgba(255, 159, 64)',
+                      'rgba(250, 157, 60)'
+                  ],
+                  hoverOffset: 4
+
+              }]
+          }
+      })
+
+
+      // // // chart4
+
+      var ctx = document.getElementById('chart3').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: serie_1,
+                    datasets: [{
+                        label: "Temperature in °C",
+                        data: temp_1,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(250, 157, 60, 0.1)',
+                            'rgba(250, 157, 62, 0.6)',
+                            'rgba(250, 157, 50, 0.4)',
+                            'rgba(250, 157, 40, 0.5)',
+                            'rgba(250, 157, 10, 0.2)',
+                            'rgba(250, 157, 30, 0.3)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(250, 157, 60, 0.1)'
+                        ],
+                        borderWidth: 2.5
+                    }]
+                }
+            })
+
+      // // //  chart5
+
+      var ctx = document.getElementById('chart4').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: serie_2,
+                    datasets: [{
+                        label: "Temperature in °C",
+                        data: temp_2,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(250, 157, 60, 0.1)',
+                            'rgba(250, 157, 62, 0.6)',
+                            'rgba(250, 157, 50, 0.4)',
+                            'rgba(250, 157, 40, 0.5)',
+                            'rgba(250, 157, 10, 0.2)',
+                            'rgba(250, 157, 30, 0.3)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(250, 157, 60, 0.1)'
+                        ],
+                        borderWidth: 2.5
+                    }]
+                }
+            })
+
+      // // //  chart6
+
+      var ctx = document.getElementById('chart5').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: serie_3,
+                    datasets: [{
+                        label: "Temperature in °C",
+                        data: temp_3,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(250, 157, 60, 0.1)',
+                            'rgba(250, 157, 62, 0.6)',
+                            'rgba(250, 157, 50, 0.4)',
+                            'rgba(250, 157, 40, 0.5)',
+                            'rgba(250, 157, 10, 0.2)',
+                            'rgba(250, 157, 30, 0.3)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(250, 157, 60, 0.1)'
+                        ],
+                        borderWidth: 2.5
+                    }]
+                }
+            })
+    </script>
+
+    {%endblock%}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js "
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj "
+      crossorigin="anonymous "
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js "
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo "
+      crossorigin="anonymous "
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js "
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI "
+      crossorigin="anonymous "
+    ></script>
+  </body>
+</html>

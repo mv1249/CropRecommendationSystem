@@ -13,7 +13,8 @@ urlpatterns = [
     path('blogcontent/', views.blogcontent, name='blogcontent'),
     path('schemes/', views.schemes, name='schemes'),
     path('schemescontent/', views.schemescontent, name='schemescontent'),
-    path('weather/', views.weather, name='weather')
+    path('weather/', views.weather, name='weather'),
+    path('weatherdash/', views.weatherdash, name='weatherdash')
 
 
 ]

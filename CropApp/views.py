@@ -4,6 +4,7 @@ import pickle
 from utility.namedutils import fertilizer_dic
 from utility import croprecommend
 from utility.scraper import heading_list, final_content, image_urls, schemes_content, final_image
+from collections import Counter
 
 from utility.weatherdetails import getdata, getfinalresult
 
@@ -433,11 +434,102 @@ def schemescontent(request, methods=['GET', 'POST']):
 
 def weather(request, methods=['GET', 'POST']):
 
-    city = 'Hyderabad'
-    res_ans = getdata(city)
-    temp_current, humidity_current, pressure_current, desc_current, obsdate_current, date_map = getfinalresult(
-        res_ans)
+    if request.method == 'POST':
+        city = request.POST.get('location')
+        print(city)
+        res_ans = getdata(city)
+        temp_current, humidity_current, pressure_current, desc_current, obsdate_current, date_map = getfinalresult(
+            res_ans)
 
-    print(date_map)
+        img_map = {
+            'clear': "/static/images/clear-sky.png",
+            'sunny': "/static/images/sunny.png",
+            'haze': "/static/images/haze.png",
+            'rain': "/static/images/rainy.png",
+            'thunder': "/static/images/thunder.png",
+            'windy': "/static/images/windy.png",
+            "cloudy": "/static/images/clouds.png",
+            "partly cloudy": "/static/images/clouds.png",
+            "smoke": "static/images/fog.png",
+            "snow": "static/images/snowflake.png",
+            "fog": "static/images/fog.png",
+            "widespread dust": "static/images/windy.png"
 
-    return render(request, 'blogcontent.html')
+        }
+
+        weather_stat = []
+
+        # finding out the weather status for next 3 days
+
+        for key, val in date_map.items():
+
+            weather_stat.append(sorted(Counter(date_map[key]['weather_status']).items(
+            ), key=lambda x: x[1], reverse=True)[0][0])
+
+        # finding out the avg temp
+
+        avgtemps = []
+        for key, val in date_map.items():
+            avgtemps.append(date_map[key]['avg_temp'])
+
+        img_1 = img_map[desc_current.lower()]
+        img_2 = img_map[weather_stat[0].lower()]
+        img_3 = img_map[weather_stat[1].lower()]
+        img_4 = img_map[weather_stat[2].lower()]
+
+        avg_2 = avgtemps[1]
+        avg_3 = avgtemps[2]
+        avg_4 = str(int(avgtemps[2])+2)
+
+        cur_desc1 = weather_stat[0]
+        cur_desc2 = weather_stat[1]
+        cur_desc3 = weather_stat[2]
+
+        keylist = list(date_map.keys())
+        tom = keylist[1]
+        nexttom = keylist[2]
+        a = keylist[2]
+        splits = a.split('-')
+        splits[-1] = str(int(splits[-1])+1)
+        nexttotom = '-'.join(splits)
+
+        avgtemps.append(avg_4)
+        keylist.append(nexttotom)
+
+        print(keylist)
+        # max and min temp
+
+        max_temp = []
+        min_temp = []
+        for key, value in date_map.items():
+            max_temp.append(date_map[key]['max_temp'])
+            min_temp.append(date_map[key]['min_temp'])
+
+        max_temp.append(str(int(max_temp[-1])+2))
+        min_temp.append(str(int(min_temp[-1])+2))
+
+        serie_1 = date_map[keylist[0]]['time_sec']
+        serie_2 = date_map[keylist[1]]['time_sec']
+        serie_3 = date_map[keylist[2]]['time_sec']
+        temp_1 = date_map[keylist[0]]['temp_sec']
+        temp_2 = date_map[keylist[1]]['temp_sec']
+        temp_3 = date_map[keylist[2]]['temp_sec']
+
+        serie_1 = [str(int(i)//60) for i in serie_1]
+        serie_2 = [str(int(i)//60) for i in serie_2]
+        serie_3 = [str(int(i)//60) for i in serie_3]
+
+        context = {'current_temp': temp_current, 'city': city,
+                   'current_humidity': humidity_current, 'current_date': obsdate_current,
+                   'current_desc': desc_current, 'img_1': img_1, 'img_2': img_2, 'img_3': img_3, 'img_4': img_4, 'avg_2': avg_2, 'avg_3': avg_3, 'avg_4': avg_4,
+                   'tom': tom, 'nexttom': nexttom, 'nexttotom': nexttotom, 'cur_desc1': cur_desc1, 'cur_desc2': cur_desc2, 'cur_desc3': cur_desc3, "avgtemps": avgtemps, "datelist": keylist, 'max_temp': max_temp, 'min_temp': min_temp, 'serie_1': serie_1, 'serie_2': serie_2, 'serie_3': serie_3, 'temp_1': temp_1, 'temp_2': temp_2, 'temp_3': temp_3,"date1":keylist[0], "date2":keylist[1],"date3":keylist[2]
+                   }
+
+        return render(request, 'weatherdash.html', context=context)
+
+    return render(request, 'weather.html')
+
+
+def weatherdash(request, methods=['GET', 'POST']):
+
+    return render(request, 'weatherdash.html')
