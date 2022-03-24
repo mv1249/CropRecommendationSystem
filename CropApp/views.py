@@ -4,6 +4,9 @@ import pickle
 from utility.namedutils import fertilizer_dic
 from utility import croprecommend
 from utility.scraper import heading_list, final_content, image_urls, schemes_content, final_image
+
+from utility.weatherdetails import getdata, getfinalresult
+
 # from utility.sentiment import getlabel, getscore
 import pandas as pd
 import numpy as np
@@ -424,3 +427,17 @@ def schemescontent(request, methods=['GET', 'POST']):
     # print(label, score)
 
     return render(request, 'blogcontent.html', context=context)
+
+
+# weather data
+
+def weather(request, methods=['GET', 'POST']):
+
+    city = 'Hyderabad'
+    res_ans = getdata(city)
+    temp_current, humidity_current, pressure_current, desc_current, obsdate_current, date_map = getfinalresult(
+        res_ans)
+
+    print(date_map)
+
+    return render(request, 'blogcontent.html')
