@@ -108,7 +108,7 @@ def fetchcontent():
             contentlist.append(content.get_text())
             index += 1
 
-        stringlist = contentlist[122].split('\n')[:-3]
+        stringlist = contentlist[123].split('\n')[:-3]
         finalcontent.append(' '.join(stringlist))
 
     return finalcontent
