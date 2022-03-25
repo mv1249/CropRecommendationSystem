@@ -152,6 +152,53 @@
       </div>
     </div>
 
+    <!--Tables -->
+
+    <div class="container my-4">
+      <table class="table my-4 table-info">
+
+          <thead>
+            <!--['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']-->
+              <tr>
+                  <th scope="col">Measure</th>
+                  <th scope="col">00:00</th>
+                  <th scope="col">03:00</th>
+                  <th scope="col">06:00</th>
+                  <th scope="col">09:00</th>
+                  <th scope="col">12:00</th>
+                  <th scope="col">15:00</th>
+                  <th scope="col">18:00</th>
+                  <th scope="col">21:00</th>
+              </tr>
+          </thead>
+
+          <tbody>
+
+              {% for key,val in table_data.items%}
+                <!-- the reason why i am using loop.index is coz suppose i deleted the 7th record from the database,so while viewing the record the end user will see after 6 there's 8,where's 7?,so instead of using the SNO of the database,we have to use the loop index as shown ↓ -->
+                <tr>
+
+                    <th scope="row">{{key}}</th>
+                    {%for data in val%}
+                      <td>{{data|safe}}</td>
+                    {%endfor%}
+        
+
+                    
+                    {% comment %} <td>{{todo.lastname}}</td>
+                    <td>{{todo.dish}}</td>
+                    <td>{{todo.quantity}}</td>
+                    <td>{{todo.price}}</td>
+                    <td>{{todo.total}}</td> {% endcomment %}
+
+
+
+                </tr> 
+              {% endfor %}
+
+          </tbody>
+      </table>
+
     <!--Charts-->
     <div class="container text-center">
       <div class="row">

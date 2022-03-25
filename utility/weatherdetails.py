@@ -1,5 +1,6 @@
 import requests
 from pprint import pprint
+import pandas as pd
 import json
 
 
@@ -83,3 +84,46 @@ def getfinalresult(res_ans):
         start += 1
 
     return temp_current, humidity_current, pressure_current, desc_current, obsdate_current, date_map
+
+
+def gettabledata(city):
+    state_cap_map = {
+        'hyderabad': 'andhra-pradesh',
+        'mumbai': 'maharashtra',
+        'chennai': 'tamil-nadu',
+        'bangalore': 'karnataka',
+        'kolkata': 'west-bengal',
+        'lucknow': 'uttar-pradesh',
+    }
+    city = city.lower()
+    if city == 'delhi':
+
+        url = 'https://www.weather25.com/asia/india/delhi?page=today'
+
+    else:
+        url = 'https://www.weather25.com/asia/india/' + \
+            state_cap_map[city]+"/"+city+"?page=today"
+
+    header = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36",
+        "X-Requested-With": "XMLHttpRequest"
+    }
+
+    r = requests.get(url, headers=header)
+
+    df = pd.read_html(r.text)
+
+    temp_list = list(df[0].iloc[0])[1:]
+    weather_list = list(df[0].iloc[1])[1:]
+    rain_chance = list(df[0].iloc[2])[1:]
+    humid = list(df[0].iloc[3])[1:]
+    wind = list(df[0].iloc[4])[1:]
+    columns = list(df[0].columns)[1:]
+
+    values = ['Temperature', 'Weather', 'Chance of rain', 'Humidity', 'Wind']
+    complete_list = [temp_list, weather_list, rain_chance, humid, wind]
+    complete_map = {}
+    for i in range(len(values)):
+        complete_map[values[i]] = complete_list[i]
+
+    return complete_map
