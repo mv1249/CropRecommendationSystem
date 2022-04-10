@@ -5,9 +5,24 @@ from utility.namedutils import fertilizer_dic
 from utility import croprecommend
 from utility.scraper import heading_list, final_content, image_urls, schemes_content, final_image
 from collections import Counter
-
+from django.http import HttpResponseRedirect
+# from tensorflow import Graph, Session
+from django.shortcuts import render
+from .forms import UploadFileForm
+from django.core.files.storage import FileSystemStorage
+import tensorflow.compat.v1 as tf
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.vgg16 import decode_predictions
+# from tensorflow import Graph, Session
 from utility.weatherdetails import getdata, getfinalresult, gettabledata
-
+from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
+import os
+from PIL import Image, ImageOps
 # from utility.sentiment import getlabel, getscore
 import pandas as pd
 import numpy as np
@@ -17,6 +32,10 @@ import numpy as np
 import spacy
 from spacy import displacy
 nlp = spacy.load('en_core_web_md')
+
+
+plant_info = pd.read_csv('CropApp/PlantInformationdata.csv')
+supplement_info = pd.read_csv('CropApp/SupplementData.csv')
 
 # Loading the Crop Recommendation Model
 
@@ -28,6 +47,17 @@ file.close()
 file1 = open('CropApp/crop_yeildprediction_model_dtree.pkl', 'rb')
 dtree = pickle.load(file1)
 file1.close()
+
+# loading the dieasemodel
+
+# tf.enable_eager_execution()
+# model_graph = tf.get_default_graph()
+# with model_graph.as_default():
+#     tf_session = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto())
+#     with tf_session.as_default():
+
+model = load_model('CropApp/model_vgg16bin_start.h5')
+
 
 # loading the croprecommendation file
 
@@ -245,6 +275,8 @@ def recommend(request, methods=['GET', 'POST']):
         response = str(fertilizer_dic[key])
 
         value = value
+
+        print(recommendations)
 
         context = {'inf': response, 'value': value,
                    'recommend': recommendations,
@@ -545,3 +577,115 @@ def weather(request, methods=['GET', 'POST']):
 def weatherdash(request, methods=['GET', 'POST']):
 
     return render(request, 'weatherdash.html')
+
+
+def market(request, methods=['GET', 'POST']):
+
+    #['disease_name','supplement name', 'supplement image', 'buy link','Class']
+    disease_name = list(supplement_info['disease_name'])
+    supplement_name = list(supplement_info['supplement name'])
+    supplement_img = list(supplement_info['supplement image'])
+    buy_link = list(supplement_info['buy link'])
+    plantclass = list(supplement_info['Class'])
+    print(len(disease_name), len(supplement_name), len(
+        supplement_img), len(buy_link), len(plantclass))
+
+    supplylist = zip(disease_name, supplement_name,
+                     supplement_img, buy_link, plantclass)
+    context = {
+        'supplylist': supplylist,
+    }
+    return render(request, 'market.html', context=context)
+
+
+def predictdiesease(request, methods=['GET', 'POST']):
+
+    if request.method == 'POST':
+        try:
+
+            fileObj = request.FILES['filePath']
+            fs = FileSystemStorage()
+            filePathName = fs.save(fileObj.name, fileObj)
+            filePathName = fs.url(filePathName)
+            testimage = '.'+filePathName
+            print(testimage)
+            img = image.load_img(testimage, target_size=(224, 224))
+            x = image.img_to_array(img)
+            z = np.expand_dims(x, axis=0)
+            result = model.predict(z)
+            final = np.argmax(result, axis=1)
+            title_text = ''
+            if final[0] == 0:
+                title_text = 'Diseased Plant ,' + 'Precision : '+'92%'
+            else:
+                title_text = 'Healthy Plant ,' + ' Precision : '+'90%'
+            w, h = 224, 224
+            shape = [(20, 20), (w - 20, h - 20)]
+
+            # creating new Image object
+            img = Image.open(testimage)
+
+            # create rectangle image
+            img1 = ImageDraw.Draw(img)
+            img1.rectangle(shape, outline="red")
+            img1.text((5, 5), title_text, (237, 230, 211))
+
+            img.save('static/TestImages/'+testimage[1:])
+
+            # scraping of content for fetching data
+            testimageName = testimage.split('./')[1].split('_')[0]
+            print(testimageName)
+            lookuplist = ['Apple', 'Cherry', 'Corn', 'Grape',
+                          'Peach', 'Pepper,', 'Potato', 'Strawberry', 'Tomato']
+
+            if testimageName in lookuplist:
+                render_text = ''
+                if final[0] == 0:
+                    render_text = 'Diseased Plant ,' + 'Upto a Precision of : '+'92%'
+                else:
+                    render_text = 'Healthy Plant ,' + 'Upto a Precision of : '+'92%'
+
+                # sending the relevant fertilizers
+                plantclass = ''
+                if final[0] == 0:
+                    plantclass = 'Diseased'
+                else:
+                    plantclass = 'Healthy'
+
+                plant_info = pd.read_csv(
+                    'CropApp/PlantInformationdata.csv')
+                plant_info['Plant'] = plant_info['Plant'].apply(
+                    lambda x: x.strip())
+                plant_info = plant_info[(plant_info['Plant'] == testimageName) & (
+                    plant_info['Class'] == plantclass)]
+
+                print(plant_info)
+
+                supplement_name = list(plant_info['supplement name'])
+                supplement_img = list(plant_info['supplement image'])
+                buy_link = list(plant_info['buy link'])
+                disease_name = list(supplement_info['disease_name'])
+                plantclass = list(supplement_info['Class'])
+
+                print(disease_name, supplement_name,
+                      supplement_img, buy_link, plantclass)
+
+                supplylist = zip(supplement_name,
+                                 supplement_img, buy_link, plantclass)
+
+                context = {"img_path": '/static/TestImages/' +
+                           testimage[1:], 'title_text': render_text, 'test_img': True,
+                           'supplylist': supplylist, 'img_name': testimageName}
+
+                return render(request, 'displaydisease.html', context=context)
+
+            else:
+                context = {"error": True}
+                print("Inside False Case!")
+                return render(request, 'cropdisease.html', context=context)
+
+        except:
+            context = {"error": True}
+            return render(request, 'cropdisease.html', context=context)
+
+    return render(request, 'cropdisease.html')

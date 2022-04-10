@@ -14,7 +14,9 @@ urlpatterns = [
     path('schemes/', views.schemes, name='schemes'),
     path('schemescontent/', views.schemescontent, name='schemescontent'),
     path('weather/', views.weather, name='weather'),
-    path('weatherdash/', views.weatherdash, name='weatherdash')
+    path('weatherdash/', views.weatherdash, name='weatherdash'),
+    path('predictdiesease/', views.predictdiesease, name='predictdiesease'),
+    path('market/', views.market, name='market')
 
 
 ]
