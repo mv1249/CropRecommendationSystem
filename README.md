@@ -1,18 +1,25 @@
-# CropRecommendationSystem 
+# Crop Recommendation System 
 
 #### A simple machine learning based website which recommends best crop to grow, fertilizers to use for your crops
 
 
-## MOTIVATION
+# Motivation
 - Farming is one of the major sectors that influences a country’s economic growth. 
 
 - In country like India, majority of the population is dependent on agriculture for their livelihood. Many new technologies, such as Machine Learning and Deep Learning, are being implemented into agriculture so that it is easier for farmers to grow and maximize their
 
 
-## DATA SOURCE
+# Data Source
 - [Crop recommendation dataset ](https://www.kaggle.com/atharvaingle/crop-recommendation-dataset) (custom built dataset)
 - [Fertilizer suggestion dataset](https://github.com/Gladiator07/Harvestify/blob/master/Data-processed/fertilizer.csv) (custom built dataset)
 - [Disease detection dataset](https://www.kaggle.com/vipoooool/new-plant-diseases-dataset)
+
+
+# System Architecture
+
+![image](https://user-images.githubusercontent.com/64339539/166977903-c0f2f7ec-f3e9-4632-931d-5068b4ba50de.png)
+
+
 
 # Services
 
@@ -57,6 +64,10 @@
 
   One can watch this issue inorder to view the latest fertilizers and farming materials which are currently om trend in the farming market, one can click on the products and can view its details as mentioned in the respective web page.
   
+
+
+
+
 
   
 
