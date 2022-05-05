@@ -14,6 +14,52 @@
 - [Fertilizer suggestion dataset](https://github.com/Gladiator07/Harvestify/blob/master/Data-processed/fertilizer.csv) (custom built dataset)
 - [Disease detection dataset](https://www.kaggle.com/vipoooool/new-plant-diseases-dataset)
 
+# Services
+
+- ### Crop Recommendation Service
+
+[<img align = right height = 50 width = 50 src = https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png>](https://github.com/mv1249/CropRecommendationSystem/issues/4)
+
+  One can watch this issue inorder to view how the crop recommendation service performs, the user has to give a set of inputs which is in form of an HTML form, which by hitting
+  the submit button, the algorithm behind the scenes, predicts the best suitable crop/fruit and also recommends similar crops/fruits which can be sown.
+  
+- ### Yeild Prediction Service
+
+[<img align = right height = 50 width = 50 src = https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png>](https://github.com/mv1249/CropRecommendationSystem/issues/5)
+
+  One can watch this issue inorder to view how the yeild prediction service works, the user has to give a set of inputs which is in form of an HTML form, when the user submits
+  the form, the data entered is send to the algorithm behind the scene and it predicts the yeild for the crop.
+  
+- ### Weather Service
+
+[<img align = right height = 50 width = 50 src = https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png>](https://github.com/mv1249/CropRecommendationSystem/issues/6)
+
+  One can watch this issue inorder to view how the weather service works, the user has to enter the place where he is currently and the service will kind of forecast 
+  the weather for the next 4 days, the analytics is displayed in form of interactive charts and graphs, which the user can go through.
+  
+  
+- ### News Portal
+
+[<img align = right height = 50 width = 50 src = https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png>](https://github.com/mv1249/CropRecommendationSystem/issues/7)
+
+  One can watch this issue inorder to view the latest news which has been displayed with inhouse text-analytics, the text analytics has been made using the Named entity recognition, which helps in determining various entities in the text and would make the reading quite interactive.
+
+
+- ### Disease Prediction Service
+
+[<img align = right height = 50 width = 50 src = https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png>](https://github.com/mv1249/CropRecommendationSystem/issues/8)
+
+  One can watch this issue inorder to predict whether a plant is diesased or healthy,the user can upload the image of the plant, and the service will process the image and will return whether the given image was infected by a disease or not and also it will give fertilizer suggestions,so as to cure the plant.
+  
+- ### Market
+
+[<img align = right height = 50 width = 50 src = https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png>](https://github.com/mv1249/CropRecommendationSystem/issues/9)
+
+  One can watch this issue inorder to view the latest fertilizers and farming materials which are currently om trend in the farming market, one can click on the products and can view its details as mentioned in the respective web page.
+  
+
+  
+
 # Built with
 
 <code><img height="30" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
